@@ -65,14 +65,12 @@ export class JuegoComponent {
         this.tablero = Array.from({ length: 8 }, () => Array(15).fill(0));
         this.tablero_rival = Array.from({ length: 8 }, () => Array(15).fill(0));
     }
-/*
     leaveConfirm(){
         if(confirm("¿Estás seguro que deseas abandonar la partida?")){
-            this.gameService.endGame(localStorage.getItem('gameId') || '').subscribe(data => {console.log(data)}, err => {console.log(err)})
+            this.gameService.endGame(this.auth.getUserId().toString(), localStorage.getItem('gameId') || '').subscribe(data => {console.log(data)}, err => {console.log(err)})
             this.leaveGame()
         }
     }
-*/
     checkBoats(tablero: number[][]) {
          console.log("donde me dispararon",tablero);
         this.disparos = tablero;
@@ -84,7 +82,7 @@ export class JuegoComponent {
         console.log("Matices combinadas" ,this.actualizarMatrices(this.barcos, this.disparos))
         this.tablero = this.actualizarMatrices(this.barcos, this.disparos)
         this.ganador = this.checkBoatsAlive(this.tablero);
-        if (this.ganador == false){
+        if (this.ganador !== false){
             this.sendLosser(this.auth.getUserId().toString())
         }
     }
@@ -97,7 +95,6 @@ export class JuegoComponent {
     }
 
 actualizarMatrices(matriz1: number[][], matriz2: number[][]): number[][] {
-
   for (let i = 0; i < matriz1.length; i++) {
     for (let j = 0; j < matriz1[0].length; j++) {
       if (matriz1[i][j] === 0 && matriz2[i][j] === 2) {
