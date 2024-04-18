@@ -1,6 +1,8 @@
 import { Component, HostListener } from '@angular/core';
 import {NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
+import {AuthService} from "@services/AuthService/auth.service";
+import {Router} from "@angular/router";
 import { EchoService } from '../../../Services/EchoService/echo.service';
 import { LoaderTypeOneComponent } from '../../../Components/Loaders/loader-type-one/loader-type-one.component';
 import { GameInstanceService } from '../../../Services/GameInstance/game-instance.service';
@@ -21,6 +23,8 @@ export class HomeComponent {
   joiningGame: Boolean = false;
 
   constructor(
+    private authService: AuthService,
+    private router: Router,
     private gameInstanceService: GameInstanceService,
     private echoService: EchoService) {}
 

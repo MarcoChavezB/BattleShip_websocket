@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserService } from '../UserServices/user.service';
+import {catchError, map, Observable, of} from "rxjs";
 
 
 @Injectable({
@@ -18,6 +19,18 @@ saveTokenResponse(jwt: string, user: any) {
     localStorage.setItem('access_token', jwt)
   }
 }
+  isAuthenticated(): Observable<boolean> {
+    const token = this.getToken();
+    if (!token) {
+      return of(false);
+    }
+    return this.userservice.authenticate().pipe(
+      map(() => true),
+      catchError(() => {
+        return of(false);
+      })
+    );
+  }
 
 getToken(): string | null {
   if (typeof window !== 'undefined') {

@@ -54,7 +54,7 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   private shouldExclude(req: HttpRequest<any>): boolean {
-    const excludedPaths = [''];
+    const excludedPaths = ['/', '/register'];
     return excludedPaths.some(path => req.url.endsWith(path));
   }
 
