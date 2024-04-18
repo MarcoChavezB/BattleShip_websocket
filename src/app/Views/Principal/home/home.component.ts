@@ -8,6 +8,7 @@ import {AuthService} from "@services/AuthService/auth.service";
 import {Router} from "@angular/router";
 import { HistoryComponent } from '@components/game/history/history.component';
 import {ToastrService} from "ngx-toastr";
+import {environment} from "@environments/environment";
 
 @Component({
   selector: 'app-home',
@@ -120,7 +121,7 @@ export class HomeComponent {
   }
 
   sseOpenConnection(){
-    this.eventSource = new EventSource('http://127.0.0.1:8000/api/game/start');
+    this.eventSource = new EventSource(environment.sseURL);
 
     this.eventSource.addEventListener('game_found', (e) => {
       const data = JSON.parse(e.data);
