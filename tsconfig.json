@@ -2,6 +2,26 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "@environments/*": [
+        "./src/environments/*"
+      ],
+      "@services/*": [
+        "./src/app/Services/*"
+      ],
+      "@models/*": [
+        "./src/app/Models/*"
+      ],
+      "@components/*": [
+        "./src/app/Components/*"
+      ],
+      "@interceptors/*": [
+        "./src/app/Interceptors/*"
+      ],
+      "@guards/*": [
+        "./src/app/Guards/*"
+      ],
+    },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
