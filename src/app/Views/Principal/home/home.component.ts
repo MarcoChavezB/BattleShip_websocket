@@ -6,13 +6,15 @@ import {Router} from "@angular/router";
 import { EchoService } from '../../../Services/EchoService/echo.service';
 import { LoaderTypeOneComponent } from '../../../Components/Loaders/loader-type-one/loader-type-one.component';
 import { GameInstanceService } from '../../../Services/GameInstance/game-instance.service';
+import { HistoryComponent } from '@components/game/history/history.component';
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     LoaderTypeOneComponent,
     NgIf,
-    RouterLink
+    RouterLink,
+    HistoryComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -20,6 +22,7 @@ import { GameInstanceService } from '../../../Services/GameInstance/game-instanc
 export class HomeComponent {
   load1: Boolean = false;
   load2: Boolean = false;
+ showHistory: Boolean = false;
   joiningGame: Boolean = false;
 
   constructor(

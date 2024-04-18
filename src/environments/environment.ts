@@ -11,6 +11,7 @@ export const environment = {
   logoutURL: `${baseURL}/user/logout`,
   authenticateURL: `${baseURL}/authenticatetoken`,
   registerURL: `${baseURL}/user/register`,
+  historyGames: `${baseURL}/game/history`,
 
   pusher: {
     key: `2489eced27769e3a01d1`,

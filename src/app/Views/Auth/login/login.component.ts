@@ -50,6 +50,7 @@ export class LoginComponent {
         this.password = form.password
         this.submitting = false;
         this.verifyCodeView = true;
+        console.log('Usuario logueado')
         console.log(data)
         this.router.navigate(['/menu'])
       },
