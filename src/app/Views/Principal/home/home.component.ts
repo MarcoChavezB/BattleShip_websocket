@@ -6,12 +6,14 @@ import {GameInstanceService} from "@services/GameInstance/game-instance.service"
 import {RouterLink} from "@angular/router";
 import {AuthService} from "@services/AuthService/auth.service";
 import {Router} from "@angular/router";
+import { HistoryComponent } from '@components/game/history/history.component';
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     LoaderTypeOneComponent,
     NgIf,
+    HistoryComponent,
     RouterLink
   ],
   templateUrl: './home.component.html',
@@ -21,6 +23,7 @@ export class HomeComponent {
   load1: Boolean = false;
   load2: Boolean = false;
   joiningGame: Boolean = false;
+    showHistory: Boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -41,6 +44,14 @@ export class HomeComponent {
       }
     });
   }
+
+    closeHistory(){
+        this.showHistory = false;
+    }
+
+    openHistory(){
+        this.showHistory = true;
+    }
 
   startQueue() {
     this.load1 = true;
