@@ -32,6 +32,18 @@ export class AuthService {
     );
   }
 
+  getUserId(){
+    if (typeof window !== 'undefined') {
+      const user = localStorage.getItem('user')
+      if(user){
+        const userParsed = JSON.parse(user as string)
+        const userId = userParsed.id
+        return userId
+      }
+      return null
+    }
+  }
+
   getToken(): string | null {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('access_token')

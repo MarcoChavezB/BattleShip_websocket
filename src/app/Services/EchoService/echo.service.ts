@@ -3,7 +3,7 @@ import Echo from 'laravel-echo';
 import { isPlatformBrowser } from '@angular/common';
 
 import {HttpClient} from "@angular/common/http";
-import { environment } from '../../../environments/environment';
+import { environment } from '@environments/environment';
 
 
 declare global {
@@ -67,8 +67,8 @@ export class EchoService {
 
   shotEvent(callback: (e: any) => void) {
     this.echo?.channel('shoot')
-      .listen('.shoot.event', (e: any) => { 
-        callback(e); 
+      .listen('.shoot.event', (e: any) => {
+        callback(e);
       });
   }
 

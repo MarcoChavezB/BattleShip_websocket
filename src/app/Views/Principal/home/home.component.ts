@@ -30,22 +30,22 @@ export class HomeComponent {
 
   ngOnInit() {
     this.echoService.listentest( (data) => {
-      console.log("AAAAAAAAAAAA", data);
+      console.log("GRAL INFO", data);
+      if (this.authService.getUserId() == data.data.players[0] || this.authService.getUserId() == data.data.players[1]) {
+        localStorage.setItem('gameId', data.data.gameId);
+        localStorage.setItem('player1', data.data.players[0]);
+        localStorage.setItem('player2', data.data.players[1]);
+        this.load1 = false;
+        this.load2 = false;
+        this.router.navigate(['/mark/game']);
+      }
     });
-    console.log('Listening to test-channel');
-
-    this.echoService.testEndpoint().subscribe((data) => {
-      console.log('Data from testEndpoint:', data);
-    });
-
   }
 
   startQueue() {
     this.load1 = true;
     this.gameInstanceService.startQueue().subscribe(
-      data => {
-        localStorage.setItem('gameId', data.gameId);
-      },
+      data => {},
       err =>{
 
       });
