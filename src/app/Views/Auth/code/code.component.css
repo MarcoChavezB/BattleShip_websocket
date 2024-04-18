@@ -1,3 +1,12 @@
+.input {
+  border-color: #ddd;
+}
+
+.input:focus {
+  border-color: #aaa;
+  outline: none;
+}
+
 .alert {
   color: #ef3042;
   border-color: #f5c6cb;
@@ -7,4 +16,5 @@
 
 button:disabled {
   background-color: gray !important;
+  cursor: not-allowed;
 }
