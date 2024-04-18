@@ -45,7 +45,9 @@ export class HomeComponent {
   startQueue() {
     this.load1 = true;
     this.gameInstanceService.startQueue().subscribe(
-      data => {},
+      data => {
+        localStorage.setItem('gameId', data.gameId);
+      },
       err =>{
 
       });
