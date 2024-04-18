@@ -27,6 +27,8 @@ export class HomeComponent {
   joiningGame: Boolean = false;
     showHistory: Boolean = false;
     userName: string = ''
+  eventSource: EventSource | null = null;
+
 
   constructor(
     private authService: AuthService,
@@ -37,8 +39,12 @@ export class HomeComponent {
 ) {}
 
   ngOnInit() {
+      /*this.echoService.testEndpoint().subscribe(data => {
+      console.log('Echo test:', data);
+      });*/
     this.userName = this.authService.getUserName()
-    this.echoService.listentest( (data) => {
+    this.sseOpenConnection();
+    /*this.echoService.listentest( (data) => {
       console.log("GRAL INFO", data);
       if (this.authService.getUserId() == data.data.players[0] || this.authService.getUserId() == data.data.players[1]) {
         localStorage.setItem('gameId', data.data.gameId);
@@ -48,7 +54,7 @@ export class HomeComponent {
         this.load2 = false;
         this.router.navigate(['/mark/game']);
       }
-    });
+    });*/
   }
 
     closeHistory(){
@@ -63,7 +69,6 @@ export class HomeComponent {
     this.load1 = true;
     this.gameInstanceService.startQueue().subscribe(
       data => {
-        localStorage.setItem('gameId', data.gameId);
       },
       err =>{
 
@@ -83,7 +88,6 @@ export class HomeComponent {
     this.gameInstanceService.joinRandomGame().subscribe(
       data => {
         console.log('Joined game:', data);
-        localStorage.setItem('gameId', data.gameId);
         if (!data.game_found) {
           setTimeout(() => {
             this.tryJoinRandomGame();
@@ -114,11 +118,29 @@ export class HomeComponent {
     if (event.key === 'Escape' && this.load1) {
       this.load1 = false;
       this.gameInstanceService.dequeueGame().subscribe(data => {
+        console.log('Dequeued game:', data);
         localStorage.removeItem('gameId');
       });
     }else if (event.key === 'Escape' && this.load2) {
       this.load2 = false;
       this.joiningGame = false;
     }
+  }
+
+  sseOpenConnection(){
+    this.eventSource = new EventSource('http://127.0.0.1:8000/api/game/start');
+
+    this.eventSource.addEventListener('game_found', (e) => {
+      const data = JSON.parse(e.data);
+      console.log('Game found:', data);
+      if (this.authService.getUserId() == data.players[0] || this.authService.getUserId() == data.players[1]) {
+        localStorage.setItem('gameId', data.gameId);
+        localStorage.setItem('player1', data.players[0]);
+        localStorage.setItem('player2', data.players[1]);
+        this.load1 = false;
+        this.load2 = false;
+        this.router.navigate(['/mark/game']);
+      }
+    })
   }
 }

@@ -31,7 +31,7 @@ export class EchoService {
     }
   }
 
-  private initializeEcho(): void {
+  public initializeEcho(): void {
     import('pusher-js').then((Pusher) => {
       window.Pusher = Pusher.default;
       this.setupEcho();
@@ -75,6 +75,5 @@ export class EchoService {
 testEndpoint(){
     return this.http.post(this.testURL, {})
 }
-
 
 }
