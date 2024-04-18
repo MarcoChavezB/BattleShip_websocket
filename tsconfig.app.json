@@ -21,6 +21,9 @@
       "@guards/*": [
         "./src/app/Guards/*"
       ],
+      "@DataSm/*": [
+        "./src/app/DataSm/*"
+      ],
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
