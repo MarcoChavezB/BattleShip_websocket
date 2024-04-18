@@ -1,11 +1,11 @@
 import { Component, HostListener } from '@angular/core';
+import {EchoService} from "@services/EchoService/echo.service";
+import {LoaderTypeOneComponent} from "@components/Loaders/loader-type-one/loader-type-one.component";
 import {NgIf} from "@angular/common";
+import {GameInstanceService} from "@services/GameInstance/game-instance.service";
 import {RouterLink} from "@angular/router";
 import {AuthService} from "@services/AuthService/auth.service";
 import {Router} from "@angular/router";
-import { EchoService } from '../../../Services/EchoService/echo.service';
-import { LoaderTypeOneComponent } from '../../../Components/Loaders/loader-type-one/loader-type-one.component';
-import { GameInstanceService } from '../../../Services/GameInstance/game-instance.service';
 import { HistoryComponent } from '@components/game/history/history.component';
 @Component({
   selector: 'app-home',
@@ -40,15 +40,22 @@ export class HomeComponent {
     this.echoService.testEndpoint().subscribe((data) => {
       console.log('Data from testEndpoint:', data);
     });
-
   }
+
+    closeHistory(){
+        this.showHistory = false;
+    }
+
+    openHistory(){
+        this.showHistory = true;
+    }
 
   startQueue() {
     this.load1 = true;
     this.gameInstanceService.startQueue().subscribe(
       data => {
         localStorage.setItem('gameId', data.gameId);
-    },
+      },
       err =>{
 
       });
@@ -82,6 +89,14 @@ export class HomeComponent {
         }
       }
     );
+  }
+
+  logout(){
+    this.authService.logout().then((res) => {
+      if(res){
+        this.router.navigate(['/'])
+      }
+    })
   }
 
   @HostListener('window:keydown', ['$event'])

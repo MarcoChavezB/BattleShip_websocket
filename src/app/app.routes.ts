@@ -10,7 +10,7 @@ import { DesauthGuard } from '@guards/DesauthGuard/desauth.guard';
 
 
 export const routes: Routes = [
-  {    
+  {
    path: '',
     component: AppComponent,
     canActivate: [DesauthGuard],

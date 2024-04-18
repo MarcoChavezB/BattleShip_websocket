@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { UserService } from '../UserServices/user.service';
+import {UserService} from "@services/UserServices/user.service";
 import {catchError, map, Observable, of} from "rxjs";
-
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +11,14 @@ export class AuthService {
     private readonly userservice: UserService
   ) { }
 
-saveTokenResponse(jwt: string, user: any) {
-  if (typeof window !== 'undefined') {
-    const userString = JSON.stringify(user)
-    localStorage.setItem('user', userString)
-    localStorage.setItem('access_token', jwt)
+  saveTokenResponse(jwt: string, user: any) {
+    if (typeof window !== 'undefined') {
+      const userString = JSON.stringify(user)
+      localStorage.setItem('user', userString)
+      localStorage.setItem('access_token', jwt)
+    }
   }
-}
+
   isAuthenticated(): Observable<boolean> {
     const token = this.getToken();
     if (!token) {
@@ -32,11 +32,11 @@ saveTokenResponse(jwt: string, user: any) {
     );
   }
 
-getToken(): string | null {
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem('access_token')
-  }
-  return null
+  getToken(): string | null {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('access_token')
+    }
+    return null
   }
 
   resetAll(){

@@ -3,20 +3,14 @@ export interface UserLogin{
   password: string;
 }
 
-export interface statusInterface {
-  status: boolean
-}
-
-export interface UserRegister{
-  name: string;
-  email: string;
-  password: string;
-}
-
 export interface UserData{
   id: number;
   name: string;
   email: string;
+}
+
+export interface statusInterface {
+  status: boolean
 }
 
 export interface LoginResponseInterface {
