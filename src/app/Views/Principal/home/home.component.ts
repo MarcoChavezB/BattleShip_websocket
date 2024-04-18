@@ -24,14 +24,17 @@ export class HomeComponent {
   load2: Boolean = false;
   joiningGame: Boolean = false;
     showHistory: Boolean = false;
+    userName: string = ''
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private gameInstanceService: GameInstanceService,
-    private echoService: EchoService) {}
+    private echoService: EchoService,
+) {}
 
   ngOnInit() {
+    this.userName = this.authService.getUserName()
     this.echoService.listentest( (data) => {
       console.log("GRAL INFO", data);
       if (this.authService.getUserId() == data.data.players[0] || this.authService.getUserId() == data.data.players[1]) {
