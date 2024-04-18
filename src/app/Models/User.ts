@@ -7,9 +7,20 @@ export interface statusInterface {
   status: boolean
 }
 
-
 export interface UserRegister{
   name: string;
   email: string;
   password: string;
+}
+
+export interface UserData{
+  id: number;
+  name: string;
+  email: string;
+}
+
+export interface LoginResponseInterface {
+  msg: string;
+  data: UserData;
+  jwt: string;
 }

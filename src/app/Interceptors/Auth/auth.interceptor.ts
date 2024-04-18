@@ -47,9 +47,6 @@ export class AuthInterceptor implements HttpInterceptor {
               }
             }
           );
-        } else if (error.status === 403){
-          this.authService.logout()
-          this.route.navigate(['/NotPermission'])
         }
         return throwError(() => error);
       })

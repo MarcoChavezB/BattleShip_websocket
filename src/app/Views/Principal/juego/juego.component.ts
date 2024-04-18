@@ -23,15 +23,14 @@ export class JuegoComponent {
 
     ngOnInit(){
         this.inicializarTablero();
-        this.listenToShots();
+        this.listenToNotify();
     }
 
-    listenToShots(){
-    console.log('Listening to shots');
+    listenToNotify(){
     this.notificationService.lsitenToEvent((eventData) => {
-        console.log('Event data:', eventData);
       });
     }
+
     tablero: number[][] = []
     tablero_rival: number[][] = []
 

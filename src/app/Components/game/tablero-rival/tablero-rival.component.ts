@@ -17,6 +17,7 @@ export class TableroRivalComponent {
     }
     openWS(){}
     casilla_selected(fila: number, columna: number) {
+        if(!this.myTurn) return;
         this.tablero_rival[fila][columna] = 2  ;
         console.log(this.tablero_rival)
         this.myTurn = false;

@@ -41,18 +41,6 @@ export class NotificationService {
         callback(e); 
       });
   }
-
-  listenToChangeCategory(callback: (e: any) => void) {
-    window.Echo?.channel('updateCategories')
-      .listen('.Update.categories', (e: any) => { 
-        callback(e); 
-      });
-  }
-
-  lsitenToChangeRole(callback: (e: any) => void) {
-    window.Echo?.channel('changeRole')
-      .listen('.ChangeRole.event', (e: any) => { 
-        callback(e); 
-      });
-  }
+ 
+        
 }
