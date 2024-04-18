@@ -35,6 +35,7 @@ export class HomeComponent {
 
   ngOnInit() {
     this.userName = this.authService.getUserName()
+
     this.echoService.listentest( (data) => {
       console.log("GRAL INFO", data);
       if (this.authService.getUserId() == data.data.players[0] || this.authService.getUserId() == data.data.players[1]) {
@@ -81,6 +82,7 @@ export class HomeComponent {
       data => {
         console.log('Joined game:', data);
         localStorage.setItem('gameId', data.gameId);
+        localStorage.setItem('turn', data.turn);
         if (!data.game_found) {
           setTimeout(() => {
             this.tryJoinRandomGame();
