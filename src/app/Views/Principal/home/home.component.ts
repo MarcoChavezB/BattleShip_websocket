@@ -27,6 +27,8 @@ export class HomeComponent {
   joiningGame: Boolean = false;
     showHistory: Boolean = false;
     userName: string = ''
+  eventSource: EventSource | null = null;
+
 
   constructor(
     private authService: AuthService,
@@ -38,18 +40,11 @@ export class HomeComponent {
 
   ngOnInit() {
     this.userName = this.authService.getUserName()
+    this.sseOpenConnection();
+  }
 
-    this.echoService.listentest( (data) => {
-      console.log("GRAL INFO", data);
-      if (this.authService.getUserId() == data.data.players[0] || this.authService.getUserId() == data.data.players[1]) {
-        localStorage.setItem('gameId', data.data.gameId);
-        localStorage.setItem('player1', data.data.players[0]);
-        localStorage.setItem('player2', data.data.players[1]);
-        this.load1 = false;
-        this.load2 = false;
-        this.router.navigate(['/mark/game']);
-      }
-    });
+  ngOnDestroy(){
+    this.sseCloseConnection();
   }
 
     closeHistory(){
@@ -64,7 +59,6 @@ export class HomeComponent {
     this.load1 = true;
     this.gameInstanceService.startQueue().subscribe(
       data => {
-        localStorage.setItem('gameId', data.gameId);
       },
       err =>{
 
@@ -123,5 +117,26 @@ export class HomeComponent {
       this.load2 = false;
       this.joiningGame = false;
     }
+  }
+
+  sseOpenConnection(){
+    this.eventSource = new EventSource('http://127.0.0.1:8000/api/game/start');
+
+    this.eventSource.addEventListener('game_found', (e) => {
+      const data = JSON.parse(e.data);
+      console.log('Game found:', data);
+      if (this.authService.getUserId() == data.players[0] || this.authService.getUserId() == data.players[1]) {
+        localStorage.setItem('gameId', data.gameId);
+        localStorage.setItem('player1', data.players[0]);
+        localStorage.setItem('player2', data.players[1]);
+        this.load1 = false;
+        this.load2 = false;
+        this.router.navigate(['/mark/game']);
+      }
+    })
+  }
+
+  sseCloseConnection(){
+    this.eventSource?.close();
   }
 }
