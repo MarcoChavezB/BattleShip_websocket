@@ -4,8 +4,20 @@
         <h1>Ingresa el codigo</h1>
         <form [formGroup]="codeForm" (ngSubmit)="verifyCode()" class="flex justify-center items-center flex-col gap-2">
             <input formControlName="code" type="text" placeholder="Codigo" class="input">
+          <div class="alert"
+               *ngIf="codeForm.controls['code'].invalid && (codeForm.controls['code'].dirty || codeForm.controls['code'].touched)">
+            <div
+              *ngIf="codeForm.controls['code'].errors?.['required']">El codigo es requerido.
+            </div>
+            <div
+              *ngIf="codeForm.controls['code'].errors?.['minlength']">El codigo debe tener al menos 6 caracteres.
+            </div>
+            <div
+              *ngIf="codeForm.controls['code'].errors?.['maxlength']">El codigo debe tener como maximo 6 caracteres.
+              </div>
+          </div>
             <div class="btn-contain">
-                <button type="submit">
+                <button type="submit" [disabled]="!codeForm.valid || submitting" >
                     <span>Enviar</span>
                 </button>
             </div>

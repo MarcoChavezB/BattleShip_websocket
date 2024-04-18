@@ -1,11 +1,12 @@
-import { UserLogin } from './../../../Models/User';
+import { UserLogin } from '@models/User';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import { UserService } from '../../../Services/UserServices/user.service';
+import { UserService } from '@services/UserServices/user.service';
 import {CodeComponent} from "../code/code.component";
 import {LoaderTypeOneComponent} from "@components/Loaders/loader-type-one/loader-type-one.component";
+import {ToastrService} from "ngx-toastr";
 
 
 @Component({
@@ -29,7 +30,8 @@ export class LoginComponent {
 
   constructor(
     private readonly userService: UserService,
-    private readonly router: Router
+    private readonly router: Router,
+    private toast: ToastrService
   ) { }
 
   loginForm = new FormGroup({
@@ -50,19 +52,21 @@ export class LoginComponent {
         this.password = form.password
         this.submitting = false;
         this.verifyCodeView = true;
-        console.log('Usuario logueado')
-        console.log(data)
+        this.toast.info('Codigo 2FA enviado a tu email', '2FA')
         this.router.navigate(['/menu'])
       },
 err => {
         this.submitting = false;
         if (err.error.errors){
+          for (let error in err.error.errors){
+            this.toast.error(err.error.errors[error], 'Error')
+          }
         }else if(err.status == 401){
-          console.log('Usuario o contraseña incorrectos')
+          this.toast.error('Usuario o contraseña incorrectos', 'Error')
         }else if(err.status == 403){
-          console.log('Usuario no verificado')
+          this.toast.error('Usuario no verificado', 'Error')
         }else if (err.status == 404) {
-          console.log('Usuario no encontrado')
+          this.toast.error('Usuario no encontrado', 'Error')
         }
       }
     )

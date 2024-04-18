@@ -79,6 +79,9 @@ export class AuthService {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('access_token');
       localStorage.removeItem('user');
+      localStorage.removeItem('gameId');
+      localStorage.removeItem('player1');
+      localStorage.removeItem('player2');
     }
   }
 
@@ -90,6 +93,9 @@ export class AuthService {
             if (res.status === true) {
               localStorage.removeItem('access_token');
               localStorage.removeItem('user');
+              localStorage.removeItem('gameId');
+              localStorage.removeItem('player1');
+              localStorage.removeItem('player2');
               resolve(true);
             } else {
               resolve(false);

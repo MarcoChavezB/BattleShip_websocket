@@ -7,7 +7,7 @@ import {UserService} from "@services/UserServices/user.service";
 import {AuthService} from "@services/AuthService/auth.service";
 import {Router} from "@angular/router";
 import {LoaderTypeOneComponent} from "@components/Loaders/loader-type-one/loader-type-one.component";
-
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-code',
@@ -24,24 +24,25 @@ export class CodeComponent {
   constructor(
     private readonly userService: UserService,
     private readonly authService: AuthService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly toast: ToastrService
   ) { }
 
   submitting = false;
-  
+
   @Input() email: string = '';
   @Input() password: string = '';
-  
+
 
   ngOnInit(){
     if(this.email === '' || this.password === ''){
     }
   }
   codeForm = new FormGroup({
-    code: new FormControl('', [Validators.required])
+    code: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(6)])
   });
 
-  
+
   verifyCode(){
     this.submitting = true;
     const user: UserLoginCode = {
@@ -54,6 +55,7 @@ export class CodeComponent {
       res => {
         this.submitting = false;
         setTimeout(() => {
+          this.toast.success('Bienvenido', 'Success')
           this.authService.saveTokenResponse(res.jwt, res.data)
           this.router.navigate(['/menu'])
         }, 50)
@@ -61,17 +63,20 @@ export class CodeComponent {
       err => {
         this.submitting = false;
         if (err.error.errors){
+          for (let error in err.error.errors){
+            this.toast.error(err.error.errors[error], 'Error')
+          }
         }else if(err.status == 401){
-          console.log('Usuario o contraseña incorrectos')
+          this.toast.error('Usuario o Contraseña incorrectos', 'Error')
         }else if(err.status == 403){
-          console.log('Usuario no verificado')
+          this.toast.error('Usuario no verificado', 'Error')
         }else if (err.status == 404) {
-          console.log('Usuario no encontrado')
+          this.toast.error('Usuario no encontrado', 'Error')
         }else if (err.status  == 405){
-          console.log(err.error.message)
+          this.toast.error('Aún no generas un codigo de verificacion', 'Error')
         }
       }
     );
   }
-  
+
 }
