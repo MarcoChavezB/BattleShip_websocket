@@ -9,11 +9,12 @@ import {Injectable, Provider} from "@angular/core";
 import {catchError, Observable, throwError} from "rxjs";
 import {AuthService} from "@services/AuthService/auth.service";
 import { Router } from '@angular/router';
+import {ToastrService} from "ngx-toastr";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthService, private route: Router) {}
+  constructor(private authService: AuthService, private route: Router, private toast: ToastrService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const authToken = this.authService.getToken();
@@ -41,9 +42,10 @@ export class AuthInterceptor implements HttpInterceptor {
           this.authService.resetAll()
           this.route.navigate(['/']).then(()=> {
               if (typeof window !== 'undefined') {
-                alert('Sesión cerrada correctamente');
+                this.toast.error('Unauthorized', 'Error de autenticación');
               } else {
                 console.error('Error de autenticación', error);
+                this.toast.error('' + error, 'Error de autenticación');
               }
             }
           );

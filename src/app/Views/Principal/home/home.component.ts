@@ -7,6 +7,8 @@ import {RouterLink} from "@angular/router";
 import {AuthService} from "@services/AuthService/auth.service";
 import {Router} from "@angular/router";
 import { HistoryComponent } from '@components/game/history/history.component';
+import {ToastrService} from "ngx-toastr";
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -31,6 +33,7 @@ export class HomeComponent {
     private router: Router,
     private gameInstanceService: GameInstanceService,
     private echoService: EchoService,
+    private toast: ToastrService
 ) {}
 
   ngOnInit() {
@@ -100,6 +103,7 @@ export class HomeComponent {
   logout(){
     this.authService.logout().then((res) => {
       if(res){
+        this.toast.success('Sesion cerrada. Hasta pronto!', 'Success')
         this.router.navigate(['/'])
       }
     })

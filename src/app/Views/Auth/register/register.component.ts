@@ -6,7 +6,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {Router} from "@angular/router";
 import {UserService} from "@services/UserServices/user.service";
 import {UserRegister} from "@models/User";
-
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-register',
@@ -24,7 +24,8 @@ export class RegisterComponent {
 submitting = false;
   constructor(
     private readonly router: Router,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly toast: ToastrService
   ) { }
 
   registerForm = new FormGroup({
@@ -42,13 +43,18 @@ submitting = false;
     }
     this.userService.register(formValues).subscribe(
       res => {
+        this.toast.success('Registrado exitosamente', 'Success');
         this.submitting = false;
         this.router.navigate(['/']);
       },
       err => {
         this.submitting = false;
         if(err.error.errors){
-
+          for (let error in err.error.errors){
+            this.toast.error(err.error.errors[error], 'Error');
+          }
+        }else {
+          this.toast.error('Error desconocido o problemas internos. Intentalo mas tarde!', 'Error');
         }
       }
     )
