@@ -1,3 +1,5 @@
+
+
 <section class="h-full bg-gray-900" style="width: 100%">
     <div class="cont h-full w-full">
         <div class="text-white">Game</div>
@@ -14,11 +16,11 @@
             <div>g</div>
             <div>h</div>
         </div>
-        <div class="contenido grid grid-rows-8">
+        <div class="contenido grid grid-rows-8" >
             <div *ngFor="let fila of tablero; let i = index" class="fila"> 
                 <div *ngFor="let columna of fila; let j = index" class="columna">
                     <div class="cont-casilla" 
-                        [ngClass]="{'has_boat': columna !== 0, 'select': columna === 2, 'bg-gray-600': (i + j) % 2 === 0, 'bg-gray-500': (i + j) % 2 !== 0}">
+                        [ngClass]="{'has_boat': columna === 1, 'select': columna === 2, 'ataque': columna === 3, 'bg-gray-600': (i + j) % 2 === 0, 'bg-gray-500': (i + j) % 2 !== 0}">
                         {{ columna == 0 ? '' : columna }}
                     </div>
                 </div>

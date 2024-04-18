@@ -66,8 +66,8 @@ export class EchoService {
   }
 
   shotEvent(callback: (e: any) => void) {
-    this.echo?.channel('shoot')
-      .listen('.shoot.event', (e: any) => {
+    this.echo?.channel('notify')
+      .listen('.Notify.event', (e: any) => {
         callback(e);
       });
   }

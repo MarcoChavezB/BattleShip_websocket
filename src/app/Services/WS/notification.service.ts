@@ -42,5 +42,12 @@ export class NotificationService {
       });
   }
  
+  notifyAlert(callback: (e: any) => void) {
+    window.Echo?.channel('alert')
+      .listen('.Alert.event', (e: any) => { 
+        callback(e); 
+      });
+  }
+ 
         
 }

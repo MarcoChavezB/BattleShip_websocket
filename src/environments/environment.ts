@@ -12,8 +12,8 @@ export const environment = {
   authenticateURL: `${baseURL}/authenticatetoken`,
   registerURL: `${baseURL}/user/register`,
   historyGames: `${baseURL}/game/history`,
-
-
+  sendBoard: `${baseURL}/game/send/board`,
+  notify: `${baseURL}/game/notify`,
   pusher: {
     key: `2489eced27769e3a01d1`,
     cluster: `us3`

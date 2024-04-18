@@ -21,8 +21,8 @@ export class GameInstanceService {
     return this.http.put<any>(environment.joinRandomGameURL, {player2_id: 2});
   }
 
-  endGame(): Observable<any> {
-    return this.http.put<any>(environment.endGameURL, {});
+  endGame(gameId: string): Observable<any> {
+    return this.http.put<any>(environment.endGameURL, {gameId: gameId});
   }
 
   dequeueGame(): Observable<any> {
@@ -32,5 +32,13 @@ export class GameInstanceService {
   cancelRandomQueue(): Observable<any> {
     return this.http.post<any>(environment.cancelRandomQueueURL, {player_id: 2});
   }
+
+  sendBoard(gameId: string, board: number[][], turn: string): Observable<any>{
+    return this.http.post<any>(environment.sendBoard, {gameId: gameId, board: board, turn: turn});
+  }
+
+    sendAlert(): Observable<any>{
+        return this.http.post<any>(environment.notify, {});
+    }
 
 }
