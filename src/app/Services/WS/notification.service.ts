@@ -48,6 +48,13 @@ export class NotificationService {
         callback(e); 
       });
   }
+
+  WinnerAlert(callback: (e: any) => void) {
+    window.Echo?.channel('winner')
+      .listen('.Winner.event', (e: any) => { 
+        callback(e); 
+      });
+  }
  
         
 }
