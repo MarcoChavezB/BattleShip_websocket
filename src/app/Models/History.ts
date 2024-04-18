@@ -9,6 +9,6 @@ export interface Game {
     updated_at: string;
     status: string;
     player1_id: number;
-    player2_id: number;
+    player2_name: string;
     winner_id: number;
 }

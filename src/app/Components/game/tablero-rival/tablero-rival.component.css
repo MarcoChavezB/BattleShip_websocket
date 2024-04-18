@@ -1,6 +1,4 @@
-*{
-    border: 0.5px solid black;
-}
+
 .cont{
  display: grid; 
   grid-template-columns: 0.1fr 1.7fr; 
