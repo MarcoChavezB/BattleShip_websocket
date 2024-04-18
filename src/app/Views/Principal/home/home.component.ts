@@ -114,7 +114,6 @@ export class HomeComponent {
     if (event.key === 'Escape' && this.load1) {
       this.load1 = false;
       this.gameInstanceService.dequeueGame().subscribe(data => {
-        console.log('Dequeued game:', data);
         localStorage.removeItem('gameId');
       });
     }else if (event.key === 'Escape' && this.load2) {
