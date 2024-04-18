@@ -28,20 +28,20 @@ export class CodeComponent {
   ) { }
 
   submitting = false;
-  
+
   @Input() email: string = '';
   @Input() password: string = '';
-  
+
 
   ngOnInit(){
     if(this.email === '' || this.password === ''){
     }
   }
   codeForm = new FormGroup({
-    code: new FormControl('', [Validators.required])
+    code: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(6)])
   });
 
-  
+
   verifyCode(){
     this.submitting = true;
     const user: UserLoginCode = {
@@ -73,5 +73,5 @@ export class CodeComponent {
       }
     );
   }
-  
+
 }
