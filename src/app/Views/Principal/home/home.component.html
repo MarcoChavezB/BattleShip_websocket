@@ -1,0 +1,50 @@
+<app-loader-type-one *ngIf="load1" text="Buscando rival... <Esc> para cancelar."/>
+<app-loader-type-one *ngIf="load2" text="Buscando partida... <Esc> para cancelar."/>
+<div class="header">
+    <div class="options">
+        <div class="inner-header">
+            <div class="flex justify-center items-center b">
+                <div id="img" routerLink=""></div>
+                <h1>Battleship</h1>
+            </div>
+            <form action="" class="flex justify-center items-center flex-col gap-2 h-full">
+                <div class="btn-contain">
+                    <button (click)="startQueue()" type="button">
+                        <span>Crear partida</span>
+                    </button>
+                </div>
+                <div class="btn-contain">
+                    <button (click)="joinRandomGame()" type="button">
+                        <span>Buscar una partida</span>
+                    </button>
+                </div>
+                <div class="btn-contain">
+                    <button>
+                        <span>Historial de juego</span>
+                    </button>
+                </div>
+                <div class="btn-contain">
+                    <button>
+                        <span>Cerrar sesion</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g class="parallax">
+                <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+                <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+            </g>
+        </svg>
+    </div>
+</div>
+
+
