@@ -8,7 +8,6 @@ import { NotificationService } from '@services/WS/notification.service';
   selector: 'app-tablero',
   standalone: true,
   imports: [
-    
     CommonModule
 ],
   templateUrl: './tablero.component.html',
@@ -57,7 +56,7 @@ export class TableroComponent {
 
     initGame(){
         localStorage.removeItem('tablero')
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 2; i++) {
             let fila = Math.floor(Math.random() * 8);
             let columna = Math.floor(Math.random() * 15);
             this.tablero[fila][columna] = 1;

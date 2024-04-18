@@ -4,6 +4,8 @@ import { AlertComponent } from '@components/Alerts/alert/alert.component';
 import { AuthService } from '@services/AuthService/auth.service';
 import { GameInstanceService } from '@services/GameInstance/game-instance.service';
 import { NotificationService } from '@services/WS/notification.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-tablero-rival',
@@ -19,8 +21,11 @@ export class TableroRivalComponent {
     constructor(
         private readonly gameInstance : GameInstanceService,
         private notificationService: NotificationService,
-        private readonly auth: AuthService
+        private readonly auth: AuthService,
+        private toast: ToastrService
     ) { }
+
+
 
     alert:boolean = false
     message: string = ''
@@ -39,7 +44,9 @@ export class TableroRivalComponent {
 
     listenToAlert(){
         this.notificationService.notifyAlert((eventData) => {
-            this.showAlert(eventData.message)
+            if(this.auth.getUserId() !== eventData.data){
+                this.toast.show(eventData.message)
+            }
         });
     }
 

@@ -21,8 +21,8 @@ export class GameInstanceService {
     return this.http.put<any>(environment.joinRandomGameURL, {player2_id: 2});
   }
 
-  endGame(gameId: string): Observable<any> {
-    return this.http.put<any>(environment.endGameURL, {gameId: gameId});
+  endGame(losser_id: string, gameId: string): Observable<any> {
+    return this.http.put<any>(environment.endGameURL, {losser_id: losser_id, gameId: gameId});
   }
 
   dequeueGame(): Observable<any> {
