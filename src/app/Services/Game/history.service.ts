@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import { HistoryResponse } from '@models/History';
+import { GameResponse } from '@models/History';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class HistoryService {
         private readonly http: HttpClient
     ) { }
 
-    getHistory():Observable<HistoryResponse>{
-        return this.http.get<HistoryResponse>(environment.historyGames)
+    getHistory():Observable<GameResponse>{
+        return this.http.get<GameResponse>(environment.historyGames)
     }
 }

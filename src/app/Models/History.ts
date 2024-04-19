@@ -1,14 +1,16 @@
-export interface HistoryResponse {
-    msg: string;
-    games: Game[];
+export interface GameResponse {
+  games: Game[];
 }
 
 export interface Game {
-    id: number;
-    created_at: string;
-    updated_at: string;
-    status: string;
-    player1_id: number;
-    player2_name: string;
-    winner_id: number;
+  id: number;
+  status: string;
+  created_at: string;
+  player1_name: string;
+  player1_id: number;
+  player2_id: number;
+  player2_name: string;
+  winner_name: string;
+  winner_id: number;
+  player_id: number;
 }

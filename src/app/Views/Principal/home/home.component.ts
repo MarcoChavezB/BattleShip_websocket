@@ -41,11 +41,23 @@ export class HomeComponent {
 
   ngOnInit() {
     this.userName = this.authService.getUserName()
-    this.sseOpenConnection();
+    setTimeout(() => {
+      this.echoService.listentest((data) => {
+        console.log('Echo data:', data);
+        if (this.authService.getUserId() == data.data.players[0] || this.authService.getUserId() == data.data.players[1]) {
+          localStorage.setItem('gameId', data.data.gameId);
+          localStorage.setItem('player1', data.data.players[0]);
+          localStorage.setItem('player2', data.data.players[1]);
+          this.load1 = false;
+          this.load2 = false;
+          this.router.navigate(['/mark/game']);
+        }
+      })
+    }, 1500);
   }
 
   ngOnDestroy(){
-    this.sseCloseConnection();
+    this.echoService.leaveChannel('lol');
   }
 
     closeHistory(){
@@ -60,6 +72,7 @@ export class HomeComponent {
     this.load1 = true;
     this.gameInstanceService.startQueue().subscribe(
       data => {
+        localStorage.setItem('gameId', data.gameId);
       },
       err =>{
 
@@ -79,7 +92,6 @@ export class HomeComponent {
     this.gameInstanceService.joinRandomGame().subscribe(
       data => {
         console.log('Joined game:', data);
-        localStorage.setItem('gameId', data.gameId);
         localStorage.setItem('turn', data.turn);
         if (!data.game_found) {
           setTimeout(() => {
@@ -120,24 +132,4 @@ export class HomeComponent {
     }
   }
 
-  sseOpenConnection(){
-    this.eventSource = new EventSource(environment.sseURL);
-
-    this.eventSource.addEventListener('game_found', (e) => {
-      const data = JSON.parse(e.data);
-      console.log('Game found:', data);
-      if (this.authService.getUserId() == data.players[0] || this.authService.getUserId() == data.players[1]) {
-        localStorage.setItem('gameId', data.gameId);
-        localStorage.setItem('player1', data.players[0]);
-        localStorage.setItem('player2', data.players[1]);
-        this.load1 = false;
-        this.load2 = false;
-        this.router.navigate(['/mark/game']);
-      }
-    })
-  }
-
-  sseCloseConnection(){
-    this.eventSource?.close();
-  }
 }

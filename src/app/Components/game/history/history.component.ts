@@ -8,7 +8,7 @@ import { HistoryService } from '@services/Game/history.service';
   selector: 'app-history',
   standalone: true,
   imports: [
-        CommonModule,   
+        CommonModule,
     ],
   templateUrl: './history.component.html',
   styleUrl: './history.component.css'
@@ -17,8 +17,8 @@ export class HistoryComponent {
     constructor(
         private readonly historyService: HistoryService
     ) { }
-    
-    history: Game[] = [];
+
+    GamesHistory: Game[] = [];
     @Output() close: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     ngOnInit() {
@@ -32,13 +32,9 @@ export class HistoryComponent {
   loadHistory() {
     this.historyService.getHistory().subscribe(
       (data) => {
-        this.history = data.games.map(game => {
-          const parsedCreatedAt = new Date(game.created_at);
-          const formattedCreatedAt = parsedCreatedAt.toISOString().split('T')[0];
-          return { ...game, created_at: formattedCreatedAt };
-        });
+        this.GamesHistory = data.games;
       },
-      (err) => {
+      err => {
         console.log(err);
       }
     );

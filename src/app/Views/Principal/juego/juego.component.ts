@@ -1,12 +1,13 @@
 import { Component, HostListener } from '@angular/core';
-import { TableroComponent } from '../../../Components/game/tablero/tablero.component';
+import { TableroComponent } from '@components/game/tablero/tablero.component';
 
 import { delay } from 'rxjs';
-import { NotificationService } from '../../../Services/WS/notification.service';
-import { TableroRivalComponent } from '../../../Components/game/tablero-rival/tablero-rival.component';
+import { NotificationService } from '@services/WS/notification.service';
+import { TableroRivalComponent } from '@components/game/tablero-rival/tablero-rival.component';
 import { Router } from '@angular/router';
 import { GameInstanceService } from '@services/GameInstance/game-instance.service';
 import { AuthService } from '@services/AuthService/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class JuegoComponent {
         private readonly notificationService: NotificationService,
         private router: Router,
         private gameService: GameInstanceService,
-        private auth: AuthService
+        private auth: AuthService,
+        private toast: ToastrService
     ) { }
 
 /*
@@ -32,7 +34,7 @@ export class JuegoComponent {
     public beforeunloadHandler(event: Event) {
         event.returnValue = true;
         if(event.returnValue){
-            this.gameService.endGame(localStorage.getItem('gameId') || '').subscribe(data => {console.log(data)}, err => {console.log(err)})            
+            this.gameService.endGame(localStorage.getItem('gameId') || '').subscribe(data => {console.log(data)}, err => {console.log(err)})
             this.leaveGame();
         }
     }
@@ -50,7 +52,7 @@ export class JuegoComponent {
 
     listenToWinner(){
         this.notificationService.WinnerAlert((eventData) => {
-          console.log(eventData)
+          console.log("Ganador", eventData);
         } );
 }
 
@@ -58,8 +60,8 @@ export class JuegoComponent {
     tablero_rival: number[][] = []
     ganador: boolean = false
 
-    disparos: number[][] = [] 
-    barcos: number[][] = [] 
+    disparos: number[][] = []
+    barcos: number[][] = []
 
     inicializarTablero() {
         this.tablero = Array.from({ length: 8 }, () => Array(15).fill(0));
@@ -84,6 +86,8 @@ export class JuegoComponent {
         this.ganador = this.checkBoatsAlive(this.tablero);
         if (this.ganador !== false){
             this.sendLosser(this.auth.getUserId().toString())
+          //this.toast.success('Ostrar', 'Ganaste')
+          //this.router.navigate(['/start']);
         }
     }
 
