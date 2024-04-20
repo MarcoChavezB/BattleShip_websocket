@@ -1,6 +1,6 @@
 <app-code *ngIf="verifyCodeView" [email]="email" [password]="password"/>
 <app-loader-type-one *ngIf="submitting" />
-<article class="bg-gray-100 flex items-center justify-center h-screen">
+<article class="bg-gray-100 flex items-center justify-center h-screen" *ngIf="!verifyCodeView">
     <div class="bg-white p-8 rounded shadow-md w-96">
         <h2 class="text-2xl font-bold mb-4">Iniciar sesión</h2>
         <form  method="post" [formGroup]="loginForm" (ngSubmit)="onSubmit()">

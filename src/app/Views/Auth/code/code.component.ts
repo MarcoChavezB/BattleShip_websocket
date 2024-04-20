@@ -73,7 +73,7 @@ export class CodeComponent {
         }else if (err.status == 404) {
           this.toast.error('Usuario no encontrado', 'Error')
         }else if (err.status  == 405){
-          this.toast.error('Aún no generas un codigo de verificacion', 'Error')
+          this.toast.error('Codigo invalido', 'Error')
         }
       }
     );
