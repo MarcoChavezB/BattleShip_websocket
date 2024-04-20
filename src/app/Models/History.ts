@@ -1,4 +1,5 @@
 export interface GameResponse {
+  page: number;
   games: Game[];
 }
 
