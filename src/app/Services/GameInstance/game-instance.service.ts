@@ -41,4 +41,11 @@ export class GameInstanceService {
         return this.http.post<any>(environment.notify, {});
     }
 
+    getBoard(): Observable<number[][]> {
+        return this.http.get<any>(environment.getBoard);
+    }
+
+    getEmptyBoard(): Observable<number[][]> {
+        return this.http.get<any>(environment.getEmptyBoard);
+    }
 }

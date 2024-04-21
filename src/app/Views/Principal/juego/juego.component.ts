@@ -1,7 +1,5 @@
 import { Component, HostListener } from '@angular/core';
 import { TableroComponent } from '@components/game/tablero/tablero.component';
-
-import { delay } from 'rxjs';
 import { NotificationService } from '@services/WS/notification.service';
 import { TableroRivalComponent } from '@components/game/tablero-rival/tablero-rival.component';
 import { Router } from '@angular/router';
@@ -29,16 +27,6 @@ export class JuegoComponent {
         private toast: ToastrService
     ) { }
 
-/*
-    @HostListener('window:beforeunload', ['$event'])
-    public beforeunloadHandler(event: Event) {
-        event.returnValue = true;
-        if(event.returnValue){
-            this.gameService.endGame(localStorage.getItem('gameId') || '').subscribe(data => {console.log(data)}, err => {console.log(err)})
-            this.leaveGame();
-        }
-    }
-*/
     ngOnInit(){
         this.inicializarTablero();
         this.listenToNotify();
@@ -52,9 +40,8 @@ export class JuegoComponent {
 
     listenToWinner(){
         this.notificationService.WinnerAlert((eventData) => {
-          console.log("Ganador", eventData);
         } );
-}
+    }
 
     tablero: number[][] = []
     tablero_rival: number[][] = []
@@ -69,26 +56,19 @@ export class JuegoComponent {
     }
     leaveConfirm(){
         if(confirm("¿Estás seguro que deseas abandonar la partida?")){
-            this.gameService.endGame(this.auth.getUserId().toString(), localStorage.getItem('gameId') || '').subscribe(data => {console.log(data)}, err => {console.log(err)})
+            this.gameService.endGame(this.auth.getUserId().toString(), localStorage.getItem('gameId') || '').subscribe(data => {
+            }, err => {console.log(err)})
             this.leaveGame()
         }
     }
     checkBoats(tablero: number[][]) {
-         console.log("donde me dispararon",tablero);
         this.disparos = tablero;
     }
 
     mostrarTablero(tablero: number[][]){
-        console.log("mi tablero", tablero)
         this.barcos = tablero;
-        console.log("Matices combinadas" ,this.actualizarMatrices(this.barcos, this.disparos))
         this.tablero = this.actualizarMatrices(this.barcos, this.disparos)
         this.ganador = this.checkBoatsAlive(this.tablero);
-        if (this.ganador !== false){
-            this.sendLosser(this.auth.getUserId().toString())
-          //this.toast.success('Ostrar', 'Ganaste')
-          //this.router.navigate(['/start']);
-        }
     }
 
     sendLosser(user_id: string){
@@ -99,6 +79,10 @@ export class JuegoComponent {
     }
 
 actualizarMatrices(matriz1: number[][], matriz2: number[][]): number[][] {
+  if (matriz1.length !== matriz2.length || matriz1[0].length !== matriz2[0].length) {
+    throw new Error('Las matrices deben tener la misma longitud');
+  }
+
   for (let i = 0; i < matriz1.length; i++) {
     for (let j = 0; j < matriz1[0].length; j++) {
       if (matriz1[i][j] === 0 && matriz2[i][j] === 2) {
@@ -127,7 +111,6 @@ checkBoatsAlive(tablero: number[][]): boolean {
 sendNotify(){
     this.gameService.sendAlert().subscribe(data => {})
 }
-
 
     leaveGame(){
         localStorage.removeItem('gameId');

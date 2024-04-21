@@ -43,7 +43,6 @@ export class HomeComponent {
     this.userName = this.authService.getUserName()
     setTimeout(() => {
       this.echoService.listentest((data) => {
-        console.log('Echo data:', data);
         if (this.authService.getUserId() == data.data.players[0] || this.authService.getUserId() == data.data.players[1]) {
           localStorage.setItem('gameId', data.data.gameId);
           localStorage.setItem('player1', data.data.players[0]);
@@ -91,7 +90,6 @@ export class HomeComponent {
     }
     this.gameInstanceService.joinRandomGame().subscribe(
       data => {
-        console.log('Joined game:', data);
         localStorage.setItem('turn', data.turn);
         if (!data.game_found) {
           setTimeout(() => {
@@ -123,7 +121,6 @@ export class HomeComponent {
     if (event.key === 'Escape' && this.load1) {
       this.load1 = false;
       this.gameInstanceService.dequeueGame().subscribe(data => {
-        console.log('Dequeued game:', data);
         localStorage.removeItem('gameId');
       });
     }else if (event.key === 'Escape' && this.load2) {

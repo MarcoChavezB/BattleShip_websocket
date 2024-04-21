@@ -32,8 +32,6 @@ export class AuthInterceptor implements HttpInterceptor {
           '_': Date.now().toString()
         }
       });
-      console.log(req)
-      console.log('interceptor')
     }
 
     return next.handle(req).pipe(

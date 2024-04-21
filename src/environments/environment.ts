@@ -15,6 +15,8 @@ export const environment = {
   sendBoard: `${baseURL}/game/send/board`,
   notify: `${baseURL}/game/notify`,
   sseURL: `${baseURL}/game/start`,
+  getBoard: `${baseURL}/game/generate/board`,
+  getEmptyBoard: `${baseURL}/game/generate/empty/board`,
 
   pusher: {
     key: `6f9207431644381a1fb9`,
