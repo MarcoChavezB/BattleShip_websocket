@@ -44,28 +44,32 @@ export class HomeComponent {
     setTimeout(() => {
       this.echoService.listentest((data) => {
         console.log('Echo data:', data);
-        if (this.authService.getUserId() == data.data.players[0] || this.authService.getUserId() == data.data.players[1]) {
-          localStorage.setItem('gameId', data.data.gameId);
-          localStorage.setItem('player1', data.data.players[0]);
-          localStorage.setItem('player2', data.data.players[1]);
-          this.load1 = false;
-          this.load2 = false;
-          this.router.navigate(['/mark/game']);
-        }
+        this.redirectToGame(data);
       })
     }, 1500);
   }
 
   ngOnDestroy(){
-    setTimeout(() => {
-      if (this.load1 == true){
+      if (this.load1 === true){
         this.gameInstanceService.dequeueGame().subscribe(data => {
           console.log('Dequeued game:', data);
           localStorage.removeItem('gameId');
         });
       }
-    })
     this.echoService.leaveChannel('lol');
+  }
+
+  redirectToGame(data: any) {
+    if ( data.data.players[0] == this.authService.getUserId() || data.data.players[1] == this.authService.getUserId()
+    ) {
+      localStorage.setItem('gameId', data.data.gameId);
+      this.toast.info(data.data.gameId, 'Game ID');
+      localStorage.setItem('player1', data.data.players[0]);
+      localStorage.setItem('player2', data.data.players[1]);
+      this.load1 = false;
+      this.load2 = false;
+      this.router.navigate(['/mark/game']);
+    }
   }
 
     closeHistory(){
@@ -90,6 +94,8 @@ export class HomeComponent {
       });
   }
 
+
+
   joinRandomGame() {
     this.load2 = true;
     this.joiningGame = true;
@@ -104,6 +110,8 @@ export class HomeComponent {
       data => {
         console.log('Joined game:', data);
         localStorage.setItem('turn', data.turn);
+        localStorage.setItem('gameId', data.gameId);
+        this.toast.info(localStorage.getItem('gameId') || '', 'GAME IDDD');
         if (!data.game_found) {
           setTimeout(() => {
             this.tryJoinRandomGame();
