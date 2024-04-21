@@ -48,4 +48,8 @@ export class GameInstanceService {
     getEmptyBoard(): Observable<number[][]> {
         return this.http.get<any>(environment.getEmptyBoard);
     }
+
+    toggleTurn(gameId: string, playerTurn: number): Observable<any> {
+        return this.http.post<any>(environment.toggleTurn, {gameId: gameId, turn : playerTurn});
+    }
 }

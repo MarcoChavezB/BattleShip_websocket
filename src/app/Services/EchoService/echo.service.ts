@@ -72,6 +72,13 @@ export class EchoService {
       });
   }
 
+  listenToChangeTurn(callback: (e: any) => void) {
+    this.echo?.channel('turn')
+      .listen('.Turn.event', (e: any) => {
+        callback(e);
+      });
+  }
+
 testEndpoint(){
     return this.http.post(this.testURL, {})
 }

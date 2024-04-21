@@ -43,20 +43,33 @@ export class HomeComponent {
     this.userName = this.authService.getUserName()
     setTimeout(() => {
       this.echoService.listentest((data) => {
-        if (this.authService.getUserId() == data.data.players[0] || this.authService.getUserId() == data.data.players[1]) {
-          localStorage.setItem('gameId', data.data.gameId);
-          localStorage.setItem('player1', data.data.players[0]);
-          localStorage.setItem('player2', data.data.players[1]);
-          this.load1 = false;
-          this.load2 = false;
-          this.router.navigate(['/mark/game']);
-        }
+        console.log('Echo data:', data);
+        this.redirectToGame(data);
       })
     }, 1500);
   }
 
   ngOnDestroy(){
+      if (this.load1 === true){
+        this.gameInstanceService.dequeueGame().subscribe(data => {
+          console.log('Dequeued game:', data);
+          localStorage.removeItem('gameId');
+        });
+      }
     this.echoService.leaveChannel('lol');
+  }
+
+  redirectToGame(data: any) {
+    if ( data.data.players[0] == this.authService.getUserId() || data.data.players[1] == this.authService.getUserId()
+    ) {
+      localStorage.setItem('gameId', data.data.gameId);
+      this.toast.info(data.data.gameId, 'Game ID');
+      localStorage.setItem('player1', data.data.players[0]);
+      localStorage.setItem('player2', data.data.players[1]);
+      this.load1 = false;
+      this.load2 = false;
+      this.router.navigate(['/mark/game']);
+    }
   }
 
     closeHistory(){
@@ -68,15 +81,22 @@ export class HomeComponent {
     }
 
   startQueue() {
+    console.log("CRANDO UN JUEGO")
     this.load1 = true;
     this.gameInstanceService.startQueue().subscribe(
       data => {
         localStorage.setItem('gameId', data.gameId);
+        localStorage.setItem('turn', data.turn);
       },
       err =>{
-
+        if (err.status == 400){
+          this.toast.error('Ya tienes un juego en cola o en partida. Finalizalo!', 'Error')
+          this.load1 = false;
+        }
       });
   }
+
+
 
   joinRandomGame() {
     this.load2 = true;
@@ -86,11 +106,15 @@ export class HomeComponent {
 
   tryJoinRandomGame() {
     if (!this.joiningGame) {
+      console.log("peticion cancelada")
       return;
     }
     this.gameInstanceService.joinRandomGame().subscribe(
       data => {
+        console.log("UNIDENDO A PARTIDA", data)
         localStorage.setItem('turn', data.turn);
+        localStorage.setItem('gameId', data.gameId);
+        this.toast.info(localStorage.getItem('gameId') || '', 'GAME IDDD');
         if (!data.game_found) {
           setTimeout(() => {
             this.tryJoinRandomGame();
@@ -102,6 +126,10 @@ export class HomeComponent {
           setTimeout(() => {
             this.tryJoinRandomGame();
           }, 2500);
+        }else if(err.status == 400){
+          this.toast.error('Ya tienes un juego en cola o en partida. Finalizalo!', 'Error')
+          this.load2 = false;
+          this.joiningGame = false;
         }
       }
     );

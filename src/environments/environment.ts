@@ -17,6 +17,7 @@ export const environment = {
   sseURL: `${baseURL}/game/start`,
   getBoard: `${baseURL}/game/generate/board`,
   getEmptyBoard: `${baseURL}/game/generate/empty/board`,
+  toggleTurn: `${baseURL}/game/turn/toggle`,
 
   pusher: {
     key: `6f9207431644381a1fb9`,
