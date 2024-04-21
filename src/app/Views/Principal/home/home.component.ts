@@ -57,6 +57,14 @@ export class HomeComponent {
   }
 
   ngOnDestroy(){
+    setTimeout(() => {
+      if (this.load1 == true){
+        this.gameInstanceService.dequeueGame().subscribe(data => {
+          console.log('Dequeued game:', data);
+          localStorage.removeItem('gameId');
+        });
+      }
+    })
     this.echoService.leaveChannel('lol');
   }
 
@@ -75,7 +83,10 @@ export class HomeComponent {
         localStorage.setItem('gameId', data.gameId);
       },
       err =>{
-
+        if (err.status == 400){
+          this.toast.error('Ya tienes un juego en cola o en partida. Finalizalo!', 'Error')
+          this.load1 = false;
+        }
       });
   }
 
@@ -104,6 +115,10 @@ export class HomeComponent {
           setTimeout(() => {
             this.tryJoinRandomGame();
           }, 2500);
+        }else if(err.status == 400){
+          this.toast.error('Ya tienes un juego en cola o en partida. Finalizalo!', 'Error')
+          this.load2 = false;
+          this.joiningGame = false;
         }
       }
     );
